@@ -1,0 +1,5 @@
+C:/Varun/Unity Projects/XR Toolkit Practice/.utmp/RelWithDebInfo/1q6d2k5o/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Varun/Unity Projects/XR Toolkit Practice/.utmp/RelWithDebInfo/1q6d2k5o/arm64-v8a/CMakeFiles/rebuild_cache.dir
+C:/Varun/Unity Projects/XR Toolkit Practice/.utmp/RelWithDebInfo/1q6d2k5o/arm64-v8a/GameActivity/CMakeFiles/game.dir
+C:/Varun/Unity Projects/XR Toolkit Practice/.utmp/RelWithDebInfo/1q6d2k5o/arm64-v8a/GameActivity/CMakeFiles/edit_cache.dir
+C:/Varun/Unity Projects/XR Toolkit Practice/.utmp/RelWithDebInfo/1q6d2k5o/arm64-v8a/GameActivity/CMakeFiles/rebuild_cache.dir

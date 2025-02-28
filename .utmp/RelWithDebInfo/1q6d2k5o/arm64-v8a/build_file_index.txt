@@ -1,0 +1,2 @@
+C:\Varun\Unity Projects\XR Toolkit Practice\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Varun\Unity Projects\XR Toolkit Practice\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt
