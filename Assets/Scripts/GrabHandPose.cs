@@ -30,19 +30,22 @@ public class GrabHandPose : MonoBehaviour
     private void OnEnable()
     {
         xrGrabInteractable.selectEntered.AddListener(SetupPose);
+        xrGrabInteractable.selectExited.AddListener(ResetPose);
     }
 
     private void OnDisable()
     {
-        xrGrabInteractable.selectEntered.RemoveListener(SetupPose); 
+        xrGrabInteractable.selectEntered.RemoveListener(SetupPose);
+        xrGrabInteractable.selectExited.AddListener(ResetPose);
     }
+
 
     public void SetupPose(BaseInteractionEventArgs args)
     {
         if(args.interactorObject is XRDirectInteractor)
         {
             HandData handData = args.interactorObject.transform.GetComponentInChildren<HandData>();
-            handData.GetAnimator().enabled = false;
+            handData.Animator.enabled = false;
 
             SetHandDataValues(handData, rightHandPose);
             SetHandData(handData, finalHandPosition, finalHandRotation, finalFingerRotations);
@@ -51,38 +54,50 @@ public class GrabHandPose : MonoBehaviour
 
     private void SetHandDataValues(HandData toHand ,HandData fromHand)
     {
-        Vector3 scaleToHand = toHand.GetRoot().localScale;
-        Vector3 scaleFromHand = fromHand.GetRoot().localScale;
+        Vector3 scaleToHand = toHand.Root.localScale;
+        Vector3 scaleFromHand = fromHand.Root.localScale;
         //scaleFromHand = Vector3.one * 0.25f;
 
-        //Debug.Log(scaleToHand);
-        //Debug.Log(scaleFromHand);
-        startingHandPosition = new Vector3(toHand.GetRoot().localPosition.x / scaleToHand.x, toHand.GetRoot().localPosition.y / scaleToHand.y, toHand.GetRoot().localPosition.z / scaleToHand.z);
-        finalHandPosition = new Vector3(fromHand.GetRoot().localPosition.x / scaleFromHand.x, fromHand.GetRoot().localPosition.y / scaleFromHand.y, fromHand.GetRoot().localPosition.z / scaleFromHand.z);
 
-        startingHandRotation = toHand.GetRoot().localRotation;
-        finalHandRotation = fromHand.GetRoot().localRotation;
+        //startingHandPosition = new Vector3(toHand.Root.localPosition.x / scaleToHand.x, toHand.Root.localPosition.y / scaleToHand.y, toHand.Root.localPosition.z / scaleToHand.z);
+        //finalHandPosition = new Vector3(fromHand.Root.localPosition.x / scaleFromHand.x, fromHand.Root.localPosition.y / scaleFromHand.y, fromHand.Root.localPosition.z / scaleFromHand.z);
+        startingHandPosition = toHand.Root.localPosition;
+        finalHandPosition = fromHand.Root.localPosition;
 
-        int length = toHand.GetFingerTransforms().Length;
+        startingHandRotation = toHand.Root.localRotation;
+        finalHandRotation = fromHand.Root.localRotation;
+
+        int length = toHand.FingerTransforms.Length;
         startingFingerRotations = new Quaternion[length];
         finalFingerRotations = new Quaternion[length];
 
         for(int i = 0; i < length; i++)
         {
-            startingFingerRotations[i] = fromHand.GetFingerTransforms()[i].localRotation;   
-            finalFingerRotations[i] = toHand.GetFingerTransforms()[i].localRotation;   
+            startingFingerRotations[i] = fromHand.FingerTransforms[i].localRotation;   
+            finalFingerRotations[i] = toHand.FingerTransforms[i].localRotation;   
         }
     }
 
 
     private void SetHandData(HandData handData, Vector3 newPosition, Quaternion newRotation, Quaternion[] newBoneRotations)
     {
-        handData.GetRoot().localPosition = newPosition;
-        handData.GetRoot().localRotation = newRotation;
+        handData.Root.localPosition = newPosition;
+        handData.Root.localRotation = newRotation;
 
         for(int i = 0; i < newBoneRotations.Length; i++)
         {
-            handData.GetFingerTransforms()[i].localRotation = newBoneRotations[i];
+            handData.FingerTransforms[i].localRotation = newBoneRotations[i];
+        }
+    }
+
+    private void ResetPose(SelectExitEventArgs args)
+    {
+        if (args.interactorObject is XRDirectInteractor)
+        {
+            HandData handData = args.interactorObject.transform.GetComponentInChildren<HandData>();
+            handData.Animator.enabled = true;
+
+            SetHandData(handData, startingHandPosition, startingHandRotation, startingFingerRotations);
         }
     }
 }

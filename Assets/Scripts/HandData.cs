@@ -14,7 +14,7 @@ public class HandData : MonoBehaviour
     [SerializeField, Tooltip("Order of bones matter")] private Transform[] fingerBones;
 
 
-    public Animator GetAnimator() => animator;
-    public Transform GetRoot() => root;
-    public Transform[] GetFingerTransforms() => fingerBones;
+    public Animator Animator { get { return animator; } }
+    public Transform Root { get { return root; } }
+    public Transform[] FingerTransforms { get { return fingerBones; } }
 }
